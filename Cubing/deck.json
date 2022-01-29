@@ -67,7 +67,7 @@
     ],
     "desc": "",
     "dyn": 0,
-    "extendNew": 3,
+    "extendNew": 1,
     "extendRev": 0,
     "media_files": [],
     "name": "Cubing",
@@ -298,6 +298,40 @@
                 "F' R' U' L2 U L2 D' B2 R2 U2 R2 D' R2 U R2 D2 B' U L2 U' B' R F U"
             ],
             "guid": "q/9MkWP+iW",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Ga",
+                "(R2 U R' U) (R' U' R U') R2 (U' D) (R' U R) D'",
+                "",
+                "",
+                "Adjacent Corner Swap",
+                "L' B D2 L2 F2 U' B2 R2 D U2 L2 F2 U B2 R' B' R' U2 B' U2 L U2"
+            ],
+            "guid": "Qkw!O9fpr1",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Gc",
+                "(R2 U' R U') (R U R' U) R2 (U D') (R U' R') D",
+                "",
+                "",
+                "Adjacent Corner Swap",
+                "L' B U' L2 U' B2 U' L2 R2 F2 D2 R2 U B2 U' B L R' F' U' F' U R U'"
+            ],
+            "guid": "h!vh?FYa8R",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
                 "Cubing::CFOP::PLL"
