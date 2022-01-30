@@ -349,6 +349,38 @@
             "tags": [
                 "Cubing::CFOP::PLL"
             ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Gb",
+                "(R' U' R) (U D') (R2 U R' U) (R U' R U') R2 D",
+                "",
+                "",
+                "Adjacent Corner Swap"
+            ],
+            "guid": "l:ee)|qi0!",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Gd",
+                "(R U R') (U' D) (R2 U' R U') (R' U R' U) R2 D'",
+                "",
+                "",
+                "Adjacent Corner Swap"
+            ],
+            "guid": "uw#K?za5$d",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL"
+            ]
         }
     ]
 }
