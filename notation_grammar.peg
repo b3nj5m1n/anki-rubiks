@@ -1,0 +1,41 @@
+alg = (move:(move / move_group / conjugate / commutator) ws? {return move})+
+
+move_group = paren_start moves:alg paren_end { return { "move_group": moves } }
+
+conjugate = brack_start ws? setup:alg ws? conjugate_indicator ws? moves:alg ws? brack_end { return { "conjugate": { "setup": setup, "moves": moves } } }
+
+commutator = brack_start ws? moves_a:alg ws? commutator_delimiter ws? moves_b:alg ws? brack_end { return { "commutator": { "a": moves_a, "b": moves_b } } }
+
+sides = identifier:('f'i / 'b'i / 'u'i / 'd'i / 'r'i / 'l'i) { return { "identifier": identifier, "type": "side" } }
+
+rotations = identifier:('x'i / 'y'i / 'z'i) { return { "identifier": identifier, "type": "rotation" } }
+
+slices = identifier:('m'i / 'e'i / 's'i) { return { "identifier": identifier, "type": "slice" } }
+
+move =  inner:(number?)
+        turn:(side:sides / rotation:rotations / slice:slices)
+        wide:wide_indicator?
+        count:(number?) prime:("'"?)
+        { return {
+            "identifier": turn.identifier,
+            "type": turn.type,
+            "wide": wide ? true : (turn.identifier == turn.identifier.toLowerCase() && turn.type == "side"),
+            "prime": prime == "'",
+            "count": count ? count : 1,
+            "inner_count": inner ? inner : 1,
+        };
+    }
+
+ws = " "
+
+commutator_delimiter = ','
+conjugate_indicator = ':'
+wide_indicator = 'w'
+
+number = [1-9]
+
+paren_start = '('
+paren_end = ')'
+
+brack_start = '['
+brack_end = ']'
