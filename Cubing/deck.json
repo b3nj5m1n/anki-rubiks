@@ -67,7 +67,7 @@
     ],
     "desc": "",
     "dyn": 0,
-    "extendNew": 1,
+    "extendNew": 2,
     "extendRev": 0,
     "media_files": [],
     "name": "Cubing",
@@ -377,6 +377,38 @@
                 "Adjacent Corner Swap"
             ],
             "guid": "uw#K?za5$d",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Aa",
+                "x L2 D2 (L' U' L) D2 (L' U L')",
+                "",
+                "",
+                "Adjacent Corner Swap"
+            ],
+            "guid": "A*;dC/Pwrh",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Ab",
+                "x' L2 D2 (L U L') D2 (L U' L)",
+                "",
+                "",
+                "Adjacent Corner Swap"
+            ],
+            "guid": "lkl7)1cN-C",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
                 "Cubing::CFOP::PLL"
