@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/peggy@1.2.0/browser/peggy.min.js"></script>
+</head>
+
+<body>
+    <h1 id="test"></h1>
+    <script>
+        const grammar = `
+        alg = (move:(move / move_group / conjugate / commutator) ws? {return move})+
+        move_group = paren_start moves:alg paren_end { return { "move_group": moves } }
+        conjugate = brack_start ws? setup:alg ws? conjugate_indicator ws? moves:alg ws? brack_end { return { "conjugate": { "setup": setup, "moves": moves } } }
+        commutator = brack_start ws? moves_a:alg ws? commutator_delimiter ws? moves_b:alg ws? brack_end { return { "commutator": { "a": moves_a, "b": moves_b } } }
+        sides = identifier:('f'i / 'b'i / 'u'i / 'd'i / 'r'i / 'l'i) { return { "identifier": identifier, "type": "side" } }
+        rotations = identifier:('x'i / 'y'i / 'z'i) { return { "identifier": identifier, "type": "rotation" } }
+        slices = identifier:('m'i / 'e'i / 's'i) { return { "identifier": identifier, "type": "slice" } }
+        move =  inner:(number?)
+                turn:(side:sides / rotation:rotations / slice:slices)
+                wide:wide_indicator?
+                count:(number?) prime:("'"?)
+                { return {
+                    "identifier": turn.identifier.toUpperCase(),
+                    "type": turn.type,
+                    "wide": wide ? true : (turn.identifier == turn.identifier.toLowerCase() && turn.type == "side"),
+                    "prime": prime == "'",
+                    "count": count ? count : 1,
+                    "inner_count": inner ? inner : 1,
+                };
+            }
+
+        ws = " "
+        commutator_delimiter = ','
+        conjugate_indicator = ':'
+        wide_indicator = 'w'
+        number = [1-9]
+        paren_start = '('
+        paren_end = ')'
+        brack_start = '['
+        brack_end = ']'
+        `;
+
+        const parser = peggy.generate(grammar);
+
+        function commutator_inverse(commutator) {
+            [commutator["commutator"]["a"], commutator["commutator"]["b"]] = [commutator["commutator"]["b"], commutator["commutator"]["a"]];
+            return commutator;
+        }
+
+        function conjugate_inverse(conjugate) {
+            conjugate["conjugate"]["setup"] = alg_inverse(conjugate["conjugate"]["setup"]);
+            return conjugate;
+        }
+
+        function move_group_inverse(group) {
+            group["move_group"] = alg_inverse(group["move_group"]);
+            return group;
+        }
+
+        function alg_inverse(alg) {
+            var result = [];
+            alg.slice().reverse().forEach((x) => {
+                if (x["commutator"]) {
+                    result.push(commutator_inverse(x));
+                }
+                else if (x["conjugate"]) {
+                    result.push(conjugate_inverse(x));
+                }
+                else if (x["move_group"]) {
+                    result.push(move_group_inverse(x));
+                }
+                else {
+                    x["prime"] = !x["prime"];
+                    result.push(x);
+                }
+            })
+            return result;
+        }
+
+        // function alg_inverse(alg) {
+        //     var result = [];
+        //     console.log(alg)
+        //     alg = parser.parse(alg_to_string(alg));
+        //     alg.slice().reverse().forEach((x) => {
+        //         x["prime"] = !x["prime"];
+        //         result.push(x);
+        //     })
+        //     return result;
+        // }
+
+        function commutator_to_string(commutator) {
+            if (!commutator["commutator"]) {throw 'Not a commutator';}
+            result = " ";
+            result += alg_to_string(commutator["commutator"]["a"]);
+            result += " ";
+            result += alg_to_string(commutator["commutator"]["b"]);
+            result += " ";
+            result += alg_to_string(alg_inverse(commutator["commutator"]["a"]));
+            result += " ";
+            result += alg_to_string(alg_inverse(commutator["commutator"]["b"]));
+            result += " ";
+            return result;
+        }
+
+        function conjugate_to_string(conjugate) {
+            if (!conjugate["conjugate"]) {throw 'Not a conjugate';}
+            result = " ";
+            result += alg_to_string(conjugate["conjugate"]["setup"]);
+            result += " ";
+            result += alg_to_string(conjugate["conjugate"]["moves"]);
+            result += " ";
+            result += alg_to_string(alg_inverse(conjugate["conjugate"]["setup"]));
+            result += " ";
+            return result;
+        }
+
+        function move_group_to_string(group) {
+            if (!group["move_group"]) {throw 'Not a move group';}
+            result += " ";
+            result = "(";
+            result += alg_to_string(group["move_group"]);
+            result += ")";
+            result += " ";
+            return result;
+        }
+
+        function alg_to_string(alg) {
+            result = " ";
+            alg.forEach((x) => {
+                if (x["commutator"]) {
+                    result += commutator_to_string(x);
+                }
+                else if (x["conjugate"]) {
+                    result += conjugate_to_string(x);
+                }
+                else if (x["move_group"]) {
+                    result += move_group_to_string(x);
+                }
+                else {
+                    result += " "
+                        + (x["inner_count"] === 1 ? "" : x["inner_count"])
+                        + (x["identifier"])
+                        + (x["wide"] === true ? "w" : "")
+                        + (x["count"] === 1 ? "" : x["count"])
+                        + (x["prime"] === true ? "'" : "")
+                        ;
+                }
+                result += " ";
+            })
+            return result.replace(/\s+/g, " ").trim();
+        }
+
+        // const alg = parser.parse("Rw' U2' Rw U2 Rw U2' Rw2' F2 Rw' U2 Rw' U2' F2 Rw2 F2");
+        // const alg = parser.parse("[U , L' E' L]");
+        // const alg = parser.parse("[U E R' : [S , R2]]");
+        // const alg = parser.parse("(R U R') F' (R U R' U') R' F (R2 U' R')");
+        // const alg = parser.parse("[ R: R U R' ]");
+
+        // console.log(alg_to_string(alg_inverse(alg)));
+    </script>
+</body>
+
+</html>

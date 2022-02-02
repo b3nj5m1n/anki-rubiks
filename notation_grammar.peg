@@ -17,7 +17,7 @@ move =  inner:(number?)
         wide:wide_indicator?
         count:(number?) prime:("'"?)
         { return {
-            "identifier": turn.identifier,
+            "identifier": turn.identifier.toUpperCase(),
             "type": turn.type,
             "wide": wide ? true : (turn.identifier == turn.identifier.toLowerCase() && turn.type == "side"),
             "prime": prime == "'",
