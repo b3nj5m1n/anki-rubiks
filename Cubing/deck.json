@@ -143,7 +143,7 @@
             "sortf": 1,
             "tmpls": [
                 {
-                    "afmt": "<div class=\"kard\">\n    <div class=\"stripe\"></div>\n    <div class=\"body-upper\">\n        {{Algset}} - {{Title}}\n    </div>\n\n    <div class=\"body-lower\">\n        <div class=\"notes\">\n\t\t\t<div id=\"cube\"></div>\n\t\t\t<br/><br/>\n\t\t\t\n            <b>{{Algorithm}}</b>\n\t\t\t<br/><br/>\n\t\t\t<hr>\n\t\t\t<br/>\n            <i>{{AlgorithmVerbose}}</i>\n\t\t\t<br/><br/>\n            <i>{{Note}}</i>\n        </div>\n    </div>\n</div>\n\n<div id=\"tags\" style=\"display: none;\">{{Tags}}</div>\n<div id=\"algorithm\" style=\"display: none;\">{{#AlgorithmVerbose}}{{AlgorithmVerbose}}{{/AlgorithmVerbose}}{{^AlgorithmVerbose}}{{Algorithm}}{{/AlgorithmVerbose}}⁩</div>\n\n<script>\n\tfunction loadResource(localPath, onlinePath, type) {\n        return new Promise((resolve, reject) => {\n            let element = document.createElement(type);\n            if (type == \"link\") {\n                element.setAttribute('rel', 'stylesheet');\n                element.type = 'text/css';\n            }\n            element.onload = resolve;\n            // localPath/onlinePath not implement yet, mainly because idk how to download the files automatically on first use\n            element.onerror = function() {}\n            if (type == \"link\") {\n                element.href = onlinePath;\n            } else {\n                element.src = onlinePath;\n            }\n            document.head.appendChild(element);\n        })\n    }\n    \n    var resources = [\n        loadResource(\"_svg.min.js\", \"https://cdn.jsdelivr.net/npm/svg.js@2.7.1/dist/svg.min.js\", \"script\"),\n        loadResource(\"_srVis.js\", \"https://cdn.jsdelivr.net/npm/sr-visualizer@1.0.11/dist/bundle/srVisualizer.min.js\", \"script\"),\n        loadResource(\"_cube.js\", \"https://cdn.jsdelivr.net/npm/cubejs@1.3.2/lib/cube.js\", \"script\"),\n    ];\n    \n    Promise.all(resources).then(draw_cube);\n\n\tfunction get_alg() {\n\t\treturn document.getElementById('algorithm').innerText.replace(/[^A-Za-z '0-9']+/g, '');\n\t}\n\n\tfunction draw_cube() {\n  \t\tlet SRVisualizer = window['sr-visualizer'];\n\t\tlet alg = get_alg();\n\t\tlet setup_alg = Cube.inverse(alg);\n  \t\tSRVisualizer.cubeSVG(document.getElementById('cube'), {\n\t\t\tview: 'plan',\n\t\t\talgorithm: setup_alg,\n\t\t})\n\t}\n\n\t/* Set the primary color based on tag */\n    var tags = document.getElementById(\"tags\").innerText.split(\" \");\n    tags.forEach(function (tag) {\n        var split = tag.split(\"::\");\n        if (split[0] == \"Color\") {\n            var r = document.querySelector(\":root\");\n            r.style.setProperty(\"--primary-color\", split[1]);\n        }\n    });\n    /* Play audio when clicking the respective element */\n    function playAudio(fieldToPlay) {\n        var elem = document.querySelector(\"#\" + fieldToPlay + \" .soundLink, #\" + fieldToPlay + \" .replaybutton\");\n        if (elem) {\n            elem.click();\n        }\n    }\n    /* Autoplay some elements */\n    var elem = document.querySelector(\".autoplay .soundLink, .autoplay .replaybutton\");\n    if (elem) {\n        elem.click();\n    }\n</script>",
+                    "afmt": "<div class=\"kard\">\n    <div class=\"stripe\"></div>\n    <div class=\"body-upper\">\n        {{Algset}} - {{Title}}\n    </div>\n\n    <div class=\"body-lower\">\n        <div class=\"notes\">\n\t\t\t<div id=\"cube\"></div>\n\t\t\t<br/><br/>\n\t\t\t\n            <b>{{Algorithm}}</b>\n\t\t\t<br/><br/>\n\t\t\t<hr>\n\t\t\t<br/>\n            <i>{{AlgorithmVerbose}}</i>\n\t\t\t<br/><br/>\n            <i>{{Note}}</i>\n        </div>\n    </div>\n</div>\n\n<div id=\"tags\" style=\"display: none;\">{{Tags}}</div>\n<div id=\"algorithm\" style=\"display: none;\">{{#AlgorithmVerbose}}{{AlgorithmVerbose}}{{/AlgorithmVerbose}}{{^AlgorithmVerbose}}{{Algorithm}}{{/AlgorithmVerbose}}⁩</div>\n\n<script>\n\tfunction loadResource(localPath, onlinePath, type) {\n        return new Promise((resolve, reject) => {\n            let element = document.createElement(type);\n            if (type == \"link\") {\n                element.setAttribute('rel', 'stylesheet');\n                element.type = 'text/css';\n            }\n            element.onload = resolve;\n            // localPath/onlinePath not implement yet, mainly because idk how to download the files automatically on first use\n            element.onerror = function() {}\n            if (type == \"link\") {\n                element.href = onlinePath;\n            } else {\n                element.src = onlinePath;\n            }\n            document.head.appendChild(element);\n        })\n    }\n    \n    var resources = [\n        loadResource(\"_svg.min.js\", \"https://cdn.jsdelivr.net/npm/svg.js@2.7.1/dist/svg.min.js\", \"script\"),\n        loadResource(\"_srVis.js\", \"https://cdn.jsdelivr.net/npm/sr-visualizer@1.0.11/dist/bundle/srVisualizer.min.js\", \"script\"),\n        loadResource(\"_peggy.js\", \"https://cdn.jsdelivr.net/npm/peggy@1.2.0/browser/peggy.min.js\", \"script\"),\n    ];\n    \n    Promise.all(resources).then(draw_cube);\n\n\tfunction get_alg() {\n\t\treturn document.getElementById('algorithm').innerText.replace(/[^A-Za-z '0-9']+/g, '');\n\t}\n\t\n\tfunction make_setup() {\n\t\tCube.initSolver();\n\t\tconst cube = new Cube();\n\t\tcube.move(Cube.inverse(get_alg()));\n\t\tdocument.getElementById('setup').innerHTML = Cube.inverse(cube.solve());\n\t}\n\n\tfunction draw_cube() {\n  \t\tlet SRVisualizer = window['sr-visualizer'];\n\t\tconst parser = peggy.generate(grammar);\n\t\tlet alg = parser.parse(get_alg());\n\t\tlet setup_alg = alg_to_string(alg_inverse(alg));\n\t\tvar cube_size = 3;\n\t\tvar tags = document.getElementById(\"tags\").innerText.split(\" \");\n    \t\ttags.forEach(function (tag) {\n        \t\tvar split = tag.split(\"::\");\n        \t\tif (split[0] == \"Cubing\" && split[1] == \"CubeSize\") {\n            \t\tcube_size = Number(split[2]);\n        \t\t}\n    \t\t});\n  \t\tSRVisualizer.cubeSVG(document.getElementById('cube'), {\n\t\t\tview: 'plan',\n\t\t\talgorithm: setup_alg,\n\t\t\tcubeSize: cube_size,\n\t\t})\n\t}\n\n\t        const grammar = `\n        alg = (move:(move / move_group / conjugate / commutator) ws? {return move})+\n        move_group = paren_start moves:alg paren_end { return { \"move_group\": moves } }\n        conjugate = brack_start ws? setup:alg ws? conjugate_indicator ws? moves:alg ws? brack_end { return { \"conjugate\": { \"setup\": setup, \"moves\": moves } } }\n        commutator = brack_start ws? moves_a:alg ws? commutator_delimiter ws? moves_b:alg ws? brack_end { return { \"commutator\": { \"a\": moves_a, \"b\": moves_b } } }\n        sides = identifier:('f'i / 'b'i / 'u'i / 'd'i / 'r'i / 'l'i) { return { \"identifier\": identifier, \"type\": \"side\" } }\n        rotations = identifier:('x'i / 'y'i / 'z'i) { return { \"identifier\": identifier, \"type\": \"rotation\" } }\n        slices = identifier:('m'i / 'e'i / 's'i) { return { \"identifier\": identifier, \"type\": \"slice\" } }\n        move =  inner:(number?)\n                turn:(side:sides / rotation:rotations / slice:slices)\n                wide:wide_indicator?\n                count:(number?) prime:(\"'\"?)\n                { return {\n                    \"identifier\": turn.identifier.toUpperCase(),\n                    \"type\": turn.type,\n                    \"wide\": wide ? true : (turn.identifier == turn.identifier.toLowerCase() && turn.type == \"side\"),\n                    \"prime\": prime == \"'\",\n                    \"count\": count ? count : 1,\n                    \"inner_count\": inner ? inner : 1,\n                };\n            }\n\n        ws = \" \"\n        commutator_delimiter = ','\n        conjugate_indicator = ':'\n        wide_indicator = 'w'\n        number = [1-9]\n        paren_start = '('\n        paren_end = ')'\n        brack_start = '['\n        brack_end = ']'\n        `;\n\n        function commutator_inverse(commutator) {\n            [commutator[\"commutator\"][\"a\"], commutator[\"commutator\"][\"b\"]] = [commutator[\"commutator\"][\"b\"], commutator[\"commutator\"][\"a\"]];\n            return commutator;\n        }\n\n        function conjugate_inverse(conjugate) {\n            conjugate[\"conjugate\"][\"setup\"] = alg_inverse(conjugate[\"conjugate\"][\"setup\"]);\n            return conjugate;\n        }\n\n        function move_group_inverse(group) {\n            group[\"move_group\"] = alg_inverse(group[\"move_group\"]);\n            return group;\n        }\n\n        function alg_inverse(alg) {\n            var result = [];\n            alg.slice().reverse().forEach((x) => {\n                if (x[\"commutator\"]) {\n                    result.push(commutator_inverse(x));\n                }\n                else if (x[\"conjugate\"]) {\n                    result.push(conjugate_inverse(x));\n                }\n                else if (x[\"move_group\"]) {\n                    result.push(move_group_inverse(x));\n                }\n                else {\n                    x[\"prime\"] = !x[\"prime\"];\n                    result.push(x);\n                }\n            })\n            return result;\n        }\n\n        function commutator_to_string(commutator) {\n            if (!commutator[\"commutator\"]) {throw 'Not a commutator';}\n            result = \" \";\n            result += alg_to_string(commutator[\"commutator\"][\"a\"]);\n            result += \" \";\n            result += alg_to_string(commutator[\"commutator\"][\"b\"]);\n            result += \" \";\n            result += alg_to_string(alg_inverse(commutator[\"commutator\"][\"a\"]));\n            result += \" \";\n            result += alg_to_string(alg_inverse(commutator[\"commutator\"][\"b\"]));\n            result += \" \";\n            return result;\n        }\n\n        function conjugate_to_string(conjugate) {\n            if (!conjugate[\"conjugate\"]) {throw 'Not a conjugate';}\n            result = \" \";\n            result += alg_to_string(conjugate[\"conjugate\"][\"setup\"]);\n            result += \" \";\n            result += alg_to_string(conjugate[\"conjugate\"][\"moves\"]);\n            result += \" \";\n            result += alg_to_string(alg_inverse(conjugate[\"conjugate\"][\"setup\"]));\n            result += \" \";\n            return result;\n        }\n\n        function move_group_to_string(group) {\n            if (!group[\"move_group\"]) {throw 'Not a move group';}\n            result += \" \";\n            result = \"(\";\n            result += alg_to_string(group[\"move_group\"]);\n            result += \")\";\n            result += \" \";\n            return result;\n        }\n\n        function alg_to_string(alg) {\n            result = \" \";\n            alg.forEach((x) => {\n                if (x[\"commutator\"]) {\n                    result += commutator_to_string(x);\n                }\n                else if (x[\"conjugate\"]) {\n                    result += conjugate_to_string(x);\n                }\n                else if (x[\"move_group\"]) {\n                    result += move_group_to_string(x);\n                }\n                else {\n                    result += \" \"\n                        + (x[\"inner_count\"] === 1 ? \"\" : x[\"inner_count\"])\n                        + (x[\"identifier\"])\n                        + (x[\"wide\"] === true ? \"w\" : \"\")\n                        + (x[\"count\"] === 1 ? \"\" : x[\"count\"])\n                        + (x[\"prime\"] === true ? \"'\" : \"\")\n                        ;\n                }\n                result += \" \";\n            })\n            return result.replace(/\\s+/g, \" \").trim();\n        }\n\n\n\t/* Set the primary color based on tag */\n    var tags = document.getElementById(\"tags\").innerText.split(\" \");\n    tags.forEach(function (tag) {\n        var split = tag.split(\"::\");\n        if (split[0] == \"Color\") {\n            var r = document.querySelector(\":root\");\n            r.style.setProperty(\"--primary-color\", split[1]);\n        }\n    });\n    /* Play audio when clicking the respective element */\n    function playAudio(fieldToPlay) {\n        var elem = document.querySelector(\"#\" + fieldToPlay + \" .soundLink, #\" + fieldToPlay + \" .replaybutton\");\n        if (elem) {\n            elem.click();\n        }\n    }\n    /* Autoplay some elements */\n    var elem = document.querySelector(\".autoplay .soundLink, .autoplay .replaybutton\");\n    if (elem) {\n        elem.click();\n    }\n</script>",
                     "bafmt": "",
                     "bfont": "",
                     "bqfmt": "",
@@ -151,7 +151,7 @@
                     "did": null,
                     "name": "Card 1",
                     "ord": 0,
-                    "qfmt": "<div class=\"kard\">\n    <div class=\"stripe\"></div>\n    <div class=\"body-upper\">\n        <i id=\"setup\"><i/>\n    </div>\n\n    <div class=\"body-lower\">\n        <div class=\"notes\">\n\t\t\t<div id=\"cube\"></div>\n            ?\n        </div>\n    </div>\n</div>\n\n<div id=\"tags\" style=\"display: none;\">{{Tags}}</div>\n<div id=\"algorithm\" style=\"display: none;\">{{#AlgorithmVerbose}}{{AlgorithmVerbose}}{{/AlgorithmVerbose}}{{^AlgorithmVerbose}}{{Algorithm}}{{/AlgorithmVerbose}}⁩</div>\n\n<script>\n\tfunction loadResource(localPath, onlinePath, type) {\n        return new Promise((resolve, reject) => {\n            let element = document.createElement(type);\n            if (type == \"link\") {\n                element.setAttribute('rel', 'stylesheet');\n                element.type = 'text/css';\n            }\n            element.onload = resolve;\n            // localPath/onlinePath not implement yet, mainly because idk how to download the files automatically on first use\n            element.onerror = function() {}\n            if (type == \"link\") {\n                element.href = onlinePath;\n            } else {\n                element.src = onlinePath;\n            }\n            document.head.appendChild(element);\n        })\n    }\n    \n    var resources = [\n        loadResource(\"_svg.min.js\", \"https://cdn.jsdelivr.net/npm/svg.js@2.7.1/dist/svg.min.js\", \"script\"),\n        loadResource(\"_srVis.js\", \"https://cdn.jsdelivr.net/npm/sr-visualizer@1.0.11/dist/bundle/srVisualizer.min.js\", \"script\"),\n        loadResource(\"_cube.js\", \"https://cdn.jsdelivr.net/npm/cubejs@1.3.2/lib/cube.js\", \"script\"),\n        loadResource(\"_solve.js\", \"https://cdn.jsdelivr.net/npm/cubejs@1.3.2/lib/solve.js\", \"script\"),\n    ];\n    \n    Promise.all(resources).then(draw_cube).then(make_setup);\n\n\tfunction get_alg() {\n\t\treturn document.getElementById('algorithm').innerText.replace(/[^A-Za-z '0-9']+/g, '');\n\t}\n\t\n\tfunction make_setup() {\n\t\tCube.initSolver();\n\t\tconst cube = new Cube();\n\t\tcube.move(Cube.inverse(get_alg()));\n\t\tdocument.getElementById('setup').innerHTML = Cube.inverse(cube.solve());\n\t}\n\n\tfunction draw_cube() {\n  \t\tlet SRVisualizer = window['sr-visualizer'];\n\t\tlet alg = get_alg();\n\t\tlet setup_alg = Cube.inverse(alg);\n  \t\tSRVisualizer.cubeSVG(document.getElementById('cube'), {\n\t\t\tview: 'plan',\n\t\t\talgorithm: setup_alg,\n\t\t})\n\t}\n\n\t/* Set the primary color based on tag */\n    var tags = document.getElementById(\"tags\").innerText.split(\" \");\n    tags.forEach(function (tag) {\n        var split = tag.split(\"::\");\n        if (split[0] == \"Color\") {\n            var r = document.querySelector(\":root\");\n            r.style.setProperty(\"--primary-color\", split[1]);\n        }\n    });\n    /* Play audio when clicking the respective element */\n    function playAudio(fieldToPlay) {\n        var elem = document.querySelector(\"#\" + fieldToPlay + \" .soundLink, #\" + fieldToPlay + \" .replaybutton\");\n        if (elem) {\n            elem.click();\n        }\n    }\n    /* Autoplay some elements */\n    var elem = document.querySelector(\".autoplay .soundLink, .autoplay .replaybutton\");\n    if (elem) {\n        elem.click();\n    }\n</script>"
+                    "qfmt": "<div class=\"kard\">\n    <div class=\"stripe\"></div>\n    <div class=\"body-upper\">\n        <i id=\"setup\"><i/>\n    </div>\n\n    <div class=\"body-lower\">\n        <div class=\"notes\">\n\t\t\t<div id=\"cube\"></div>\n            ?\n        </div>\n    </div>\n</div>\n\n<div id=\"tags\" style=\"display: none;\">{{Tags}}</div>\n<div id=\"algorithm\" style=\"display: none;\">{{#AlgorithmVerbose}}{{AlgorithmVerbose}}{{/AlgorithmVerbose}}{{^AlgorithmVerbose}}{{Algorithm}}{{/AlgorithmVerbose}}⁩</div>\n\n<script>\n\tfunction loadResource(localPath, onlinePath, type) {\n        return new Promise((resolve, reject) => {\n            let element = document.createElement(type);\n            if (type == \"link\") {\n                element.setAttribute('rel', 'stylesheet');\n                element.type = 'text/css';\n            }\n            element.onload = resolve;\n            // localPath/onlinePath not implement yet, mainly because idk how to download the files automatically on first use\n            element.onerror = function() {}\n            if (type == \"link\") {\n                element.href = onlinePath;\n            } else {\n                element.src = onlinePath;\n            }\n            document.head.appendChild(element);\n        })\n    }\n    \n    var resources = [\n        loadResource(\"_svg.min.js\", \"https://cdn.jsdelivr.net/npm/svg.js@2.7.1/dist/svg.min.js\", \"script\"),\n        loadResource(\"_srVis.js\", \"https://cdn.jsdelivr.net/npm/sr-visualizer@1.0.11/dist/bundle/srVisualizer.min.js\", \"script\"),\n        loadResource(\"_peggy.js\", \"https://cdn.jsdelivr.net/npm/peggy@1.2.0/browser/peggy.min.js\", \"script\"),\n    ];\n    \n    Promise.all(resources).then(draw_cube);\n\n\tfunction get_alg() {\n\t\treturn document.getElementById('algorithm').innerText.replace(/[^A-Za-z '0-9']+/g, '');\n\t}\n\t\n\tfunction make_setup() {\n\t\tCube.initSolver();\n\t\tconst cube = new Cube();\n\t\tcube.move(Cube.inverse(get_alg()));\n\t\tdocument.getElementById('setup').innerHTML = Cube.inverse(cube.solve());\n\t}\n\n\tfunction draw_cube() {\n  \t\tlet SRVisualizer = window['sr-visualizer'];\n\t\tconst parser = peggy.generate(grammar);\n\t\tlet alg = parser.parse(get_alg());\n\t\tlet setup_alg = alg_to_string(alg_inverse(alg));\n\t\tdocument.getElementById('setup').innerHTML = setup_alg;\n\t\tvar cube_size = 3;\n\t\tvar tags = document.getElementById(\"tags\").innerText.split(\" \");\n    \t\ttags.forEach(function (tag) {\n        \t\tvar split = tag.split(\"::\");\n        \t\tif (split[0] == \"Cubing\" && split[1] == \"CubeSize\") {\n            \t\tcube_size = Number(split[2]);\n        \t\t}\n    \t\t});\n  \t\tSRVisualizer.cubeSVG(document.getElementById('cube'), {\n\t\t\tview: 'plan',\n\t\t\talgorithm: setup_alg,\n\t\t\tcubeSize: cube_size,\n\t\t})\n\t}\n\n\t        const grammar = `\n        alg = (move:(move / move_group / conjugate / commutator) ws? {return move})+\n        move_group = paren_start moves:alg paren_end { return { \"move_group\": moves } }\n        conjugate = brack_start ws? setup:alg ws? conjugate_indicator ws? moves:alg ws? brack_end { return { \"conjugate\": { \"setup\": setup, \"moves\": moves } } }\n        commutator = brack_start ws? moves_a:alg ws? commutator_delimiter ws? moves_b:alg ws? brack_end { return { \"commutator\": { \"a\": moves_a, \"b\": moves_b } } }\n        sides = identifier:('f'i / 'b'i / 'u'i / 'd'i / 'r'i / 'l'i) { return { \"identifier\": identifier, \"type\": \"side\" } }\n        rotations = identifier:('x'i / 'y'i / 'z'i) { return { \"identifier\": identifier, \"type\": \"rotation\" } }\n        slices = identifier:('m'i / 'e'i / 's'i) { return { \"identifier\": identifier, \"type\": \"slice\" } }\n        move =  inner:(number?)\n                turn:(side:sides / rotation:rotations / slice:slices)\n                wide:wide_indicator?\n                count:(number?) prime:(\"'\"?)\n                { return {\n                    \"identifier\": turn.identifier.toUpperCase(),\n                    \"type\": turn.type,\n                    \"wide\": wide ? true : (turn.identifier == turn.identifier.toLowerCase() && turn.type == \"side\"),\n                    \"prime\": prime == \"'\",\n                    \"count\": count ? count : 1,\n                    \"inner_count\": inner ? inner : 1,\n                };\n            }\n\n        ws = \" \"\n        commutator_delimiter = ','\n        conjugate_indicator = ':'\n        wide_indicator = 'w'\n        number = [1-9]\n        paren_start = '('\n        paren_end = ')'\n        brack_start = '['\n        brack_end = ']'\n        `;\n\n        function commutator_inverse(commutator) {\n            [commutator[\"commutator\"][\"a\"], commutator[\"commutator\"][\"b\"]] = [commutator[\"commutator\"][\"b\"], commutator[\"commutator\"][\"a\"]];\n            return commutator;\n        }\n\n        function conjugate_inverse(conjugate) {\n            conjugate[\"conjugate\"][\"setup\"] = alg_inverse(conjugate[\"conjugate\"][\"setup\"]);\n            return conjugate;\n        }\n\n        function move_group_inverse(group) {\n            group[\"move_group\"] = alg_inverse(group[\"move_group\"]);\n            return group;\n        }\n\n        function alg_inverse(alg) {\n            var result = [];\n            alg.slice().reverse().forEach((x) => {\n                if (x[\"commutator\"]) {\n                    result.push(commutator_inverse(x));\n                }\n                else if (x[\"conjugate\"]) {\n                    result.push(conjugate_inverse(x));\n                }\n                else if (x[\"move_group\"]) {\n                    result.push(move_group_inverse(x));\n                }\n                else {\n                    x[\"prime\"] = !x[\"prime\"];\n                    result.push(x);\n                }\n            })\n            return result;\n        }\n\n        function commutator_to_string(commutator) {\n            if (!commutator[\"commutator\"]) {throw 'Not a commutator';}\n            result = \" \";\n            result += alg_to_string(commutator[\"commutator\"][\"a\"]);\n            result += \" \";\n            result += alg_to_string(commutator[\"commutator\"][\"b\"]);\n            result += \" \";\n            result += alg_to_string(alg_inverse(commutator[\"commutator\"][\"a\"]));\n            result += \" \";\n            result += alg_to_string(alg_inverse(commutator[\"commutator\"][\"b\"]));\n            result += \" \";\n            return result;\n        }\n\n        function conjugate_to_string(conjugate) {\n            if (!conjugate[\"conjugate\"]) {throw 'Not a conjugate';}\n            result = \" \";\n            result += alg_to_string(conjugate[\"conjugate\"][\"setup\"]);\n            result += \" \";\n            result += alg_to_string(conjugate[\"conjugate\"][\"moves\"]);\n            result += \" \";\n            result += alg_to_string(alg_inverse(conjugate[\"conjugate\"][\"setup\"]));\n            result += \" \";\n            return result;\n        }\n\n        function move_group_to_string(group) {\n            if (!group[\"move_group\"]) {throw 'Not a move group';}\n            result += \" \";\n            result = \"(\";\n            result += alg_to_string(group[\"move_group\"]);\n            result += \")\";\n            result += \" \";\n            return result;\n        }\n\n        function alg_to_string(alg) {\n            result = \" \";\n            alg.forEach((x) => {\n                if (x[\"commutator\"]) {\n                    result += commutator_to_string(x);\n                }\n                else if (x[\"conjugate\"]) {\n                    result += conjugate_to_string(x);\n                }\n                else if (x[\"move_group\"]) {\n                    result += move_group_to_string(x);\n                }\n                else {\n                    result += \" \"\n                        + (x[\"inner_count\"] === 1 ? \"\" : x[\"inner_count\"])\n                        + (x[\"identifier\"])\n                        + (x[\"wide\"] === true ? \"w\" : \"\")\n                        + (x[\"count\"] === 1 ? \"\" : x[\"count\"])\n                        + (x[\"prime\"] === true ? \"'\" : \"\")\n                        ;\n                }\n                result += \" \";\n            })\n            return result.replace(/\\s+/g, \" \").trim();\n        }\n\n\t/* Set the primary color based on tag */\n    var tags = document.getElementById(\"tags\").innerText.split(\" \");\n    tags.forEach(function (tag) {\n        var split = tag.split(\"::\");\n        if (split[0] == \"Color\") {\n            var r = document.querySelector(\":root\");\n            r.style.setProperty(\"--primary-color\", split[1]);\n        }\n    });\n    /* Play audio when clicking the respective element */\n    function playAudio(fieldToPlay) {\n        var elem = document.querySelector(\"#\" + fieldToPlay + \" .soundLink, #\" + fieldToPlay + \" .replaybutton\");\n        if (elem) {\n            elem.click();\n        }\n    }\n    /* Autoplay some elements */\n    var elem = document.querySelector(\".autoplay .soundLink, .autoplay .replaybutton\");\n    if (elem) {\n        elem.click();\n    }\n</script>"
                 }
             ],
             "type": 0
@@ -171,7 +171,8 @@
             "guid": "cJLgQUm<zG",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -187,7 +188,8 @@
             "guid": "L$05Y9D$i?",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -203,7 +205,8 @@
             "guid": "tQAB&rV/:_",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -219,7 +222,8 @@
             "guid": "m88,+zw~2S",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -235,7 +239,8 @@
             "guid": "N|Zu>HS8eh",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -251,7 +256,8 @@
             "guid": "e~+gh(C)F[",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -267,7 +273,8 @@
             "guid": "xPc6/b{J=9",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -283,7 +290,8 @@
             "guid": "q/9MkWP+iW",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -299,7 +307,8 @@
             "guid": "Qkw!O9fpr1",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -315,7 +324,8 @@
             "guid": "h!vh?FYa8R",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -331,7 +341,8 @@
             "guid": "eNK:3xti*s",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -347,7 +358,8 @@
             "guid": "uustH],vl+",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -363,7 +375,8 @@
             "guid": "l:ee)|qi0!",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -379,7 +392,8 @@
             "guid": "uw#K?za5$d",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -395,7 +409,8 @@
             "guid": "A*;dC/Pwrh",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         },
         {
@@ -411,7 +426,59 @@
             "guid": "lkl7)1cN-C",
             "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
             "tags": [
-                "Cubing::CFOP::PLL"
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "OLL",
+                "Parity",
+                "Rw' U2' Rw U2 Rw U2' Rw2' F2 Rw' U2 Rw' U2' F2 Rw2 F2<a href=\"https://cubedb.net/?stage=OLLParity&amp;type=alg&amp;rank=4&amp;scramble=z2&amp;crosscolor=White&amp;alg=Rw%27+U2%27+Rw+U2+Rw+U2%27+Rw2%27+F2+Rw%27+U2+Rw%27+U2%27+F2+Rw2+F2\"> <i></i></a>",
+                "",
+                "",
+                ""
+            ],
+            "guid": "A<mutxF5Fi",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::4x4::OLL",
+                "Cubing::CubeSize::4"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Parity",
+                "2R2 U2 2R2 Uw2 2R2 Uw2",
+                "",
+                "",
+                ""
+            ],
+            "guid": "yWa!L^B/`u",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::4x4::PLL",
+                "Cubing::CubeSize::4"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "F2L",
+                "Last Edges",
+                "Dw R F' U R' F Dw'",
+                "",
+                "",
+                ""
+            ],
+            "guid": "owli1&:hUQ",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::4x4::F2L",
+                "Cubing::CubeSize::4"
             ]
         }
     ]
