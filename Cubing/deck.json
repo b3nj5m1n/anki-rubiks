@@ -67,7 +67,7 @@
     ],
     "desc": "",
     "dyn": 0,
-    "extendNew": 2,
+    "extendNew": 1,
     "extendRev": 0,
     "media_files": [],
     "name": "Cubing",
@@ -479,6 +479,57 @@
             "tags": [
                 "Cubing::4x4::F2L",
                 "Cubing::CubeSize::4"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Ra",
+                "(R U' R' U') (R U R) D (R' U' R) D' (R' U2 R')",
+                "",
+                "",
+                "Adjacent Corner Swap"
+            ],
+            "guid": "&Z5NK",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Rb",
+                "R2 F (R U R U') R' F' (R U2 R' U2) R",
+                "",
+                "",
+                "Adjacent Corner Swap"
+            ],
+            "guid": "dL>*H",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "Nb",
+                "R' (U R U' R') F' U' F (R U R') (F R' F' R) U' R",
+                "",
+                "",
+                "Diagonal Corner Swap"
+            ],
+            "guid": "E;0uA",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
             ]
         }
     ]
