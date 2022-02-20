@@ -531,6 +531,40 @@
                 "Cubing::CFOP::PLL",
                 "Cubing::CubeSize::3"
             ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "V",
+                "(R' U R' U') R D' R' D R' U D' R2 U' R2 D R2",
+                "",
+                "",
+                "Diagonal Corner Swap"
+            ],
+            "guid": "F,~Q*ILXm]",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
+            ]
+        },
+        {
+            "__type__": "Note",
+            "fields": [
+                "PLL",
+                "E",
+                "x' (R U' R') D (R U R') D' (R U R') D (R U' R') D'",
+                "",
+                "",
+                "Diagonal Corner Swap"
+            ],
+            "guid": "Bw*Y+i<)/p",
+            "note_model_uuid": "db8500da-7fe2-11ec-87a3-40b076dccfad",
+            "tags": [
+                "Cubing::CFOP::PLL",
+                "Cubing::CubeSize::3"
+            ]
         }
     ]
 }
